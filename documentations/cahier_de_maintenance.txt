@@ -1,0 +1,103 @@
+Cahier de maintenance Convertisseur Web
+
+Veuillez suivre les instructions suivantes pour toute intervention future sur le code
+
+Méthode pour ajouter des choix de conversion:
+
+1. Ajouter un bouton de sélection:
+    dans le fichier interaction.js ligne 55
+    la fonction addAConvertingChoice permet d'ajouter un bon avec les attributs corrects
+    
+                function addAConvertingChoice(attributeId, attributeOnclick, attributeValue) {
+                // ajouter un bouton
+                let parentDiv = document.getElementById('buttons_type')
+                let buttonToAdd = document.createElement('button')
+                parentDiv.appendChild(buttonToAdd)
+                buttonToAdd.setAttribute('id', attributeId)
+                buttonToAdd.setAttribute('onclick', attributeOnclick)
+                buttonToAdd.textContent = attributeValue
+                // ajouter les propriétés au click
+            }
+            // test d'ajout de bouton
+            //addAConvertingChoice('volume', "displayUnit(massUnits)", 'Volume')
+
+
+2. Créer la table de conversion souhaité dans le fichier table_conversion.js
+
+Sur le même modèle que les types d'unités déjà présents, créer des variables avecles caractéristiques suivantes:
+    Mesure représente l'unite de mesure à ajouter (ex: Volume)
+    
+    var unite_MESURE_libelle = "toutes|les|unités|inscrites|en|entier|avec|une|majuscule"
+    var unite_MESURE = "les|abreviations|des|unites"
+
+    Ensuite crééer autant de variables que d'unités ce qui crééra une table de calcul
+
+    var unite1 = "valunite1/unite1|valunite2/unite1|valunite3/unite1|valunite4/unite1"
+    var unite2 = "valunite1/unite2|valunite2/unite2|valunite3/unite2|valunite4/unite2"
+    var unite3 = "valunite1/unite3|valunite2/unite3|valunite3/unite3|valunite4/unite3"
+    var unite4 = "valunite1/unite4|valunite2/unite4|valunite3/unite4|valunite4/unite4"
+
+
+3. Créer une fonction de calcul dans le fichier conversion.js sur la base de la fonction: 
+ // CONVERSION UNITE DEBUT FONCTION  -----------------------------------------------------------------//
+
+
+    function calcul_UNITE_DE_MESURE(unite_cible, unite_depart, valeur_a_convertir, valeur_decimal, valeur_convertie, formule_convertie) {
+        // lancement traitement
+        // récupération taux de conversion :
+        position = "";
+        switch (unite_cible) {
+            case "unite1":
+                position = 0;
+                break;
+            case "unite2":
+                position = 1;
+                break;
+            case "unite3":
+                position = 2;
+                break;
+            case "unite4":
+                position = 3;
+                break;
+        }
+        // récupération de l'unité cible en libellé réduit:
+        // on transforme la chaine de caractère unite en tableau:
+        tableau_unite_reduit = unite_masse.split("|");
+
+        // on récupére le libellé rèduit à la position définie
+        unite_cible_reduit = tableau_unite_reduit[position];
+
+        // unité de départ :
+        // on remplit le tableau contenant les valeurs de conversion correspondant à l'unité de départ
+        tableau_unite = "";
+
+        switch (unite_depart) {
+            case "unite1":
+                tableau_unite = Milligramme.split("|");
+                break;
+            case "unite2":
+                tableau_unite = Gramme.split("|");
+                break;
+            case "unite3":
+                tableau_unite = Kilogramme.split("|");
+                break;
+            case "unite4":
+                tableau_unite = Tonne.split("|");
+                break;
+        }        
+        valeur_conversion = tableau_unite[position];
+
+        // calcul final :
+
+        resultat_calcul = calcul_final(valeur_a_convertir, valeur_conversion, valeur_decimal);
+
+        // Affichage résultat:
+
+        // valeur_convertie.innerHTML = ` ${valeur_a_convertir} en ${unite_depart}  vaut ${resultat_calcul} en ${unite_cible}.`;
+        valeur_convertie.innerHTML = `${resultat_calcul} ${unite_cible_reduit}`;
+
+        formule_convertie.innerHTML = `La formule utilisée est  ${valeur_a_convertir} * ${valeur_conversion}`;
+    }
+    // CONVERSION UNITE FIN FONCTION  -----------------------------------------------------------------//
+
+    
